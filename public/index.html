@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📋 Submit Evidence</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #00fbaa 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: #111927;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,255,220,0.15), 0 2px 20px 0 #00fbaa;
+            overflow: hidden;
+            border: 2px solid #23e6ae;
+        }
+        .header {
+            background: linear-gradient(135deg, #21d4fd 0%, #00f2fe 100%);
+            color: rgb(0, 0, 0);
+            padding: 32px 24px 24px 24px;
+            text-align: center;
+            box-shadow: 0 2px 16px #2fffec90;
+            border-bottom: 2px solid #37ffb6;
+        }
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 9px #0ff, 0 0 6px #00fff7ad;
+            letter-spacing: 2px;
+        }
+        .header p {
+            opacity: 0.9;
+            font-size: 1.05em;
+            color: #bafffa;
+            text-shadow: 0 0 6px #23e6ae90;
+        }
+        .form-container {
+            padding: 38px 28px 38px 28px;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            color: #31ffc5;
+            margin-bottom: 8px;
+            font-size: 1.08em;
+            letter-spacing: 1px;
+            text-shadow: 0 0 6px #00ffdf80;
+        }
+        .required {
+            color: #21d4fd;
+        }
+        input[type="number"],
+        input[type="file"],
+        select,
+        input[type="text"] {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid #30f8ff88;
+            border-radius: 10px;
+            font-size: 1.07em;
+            background: #1a294066;
+            color: #aaffee;
+            margin-bottom: 5px;
+            outline: none;
+            transition: border-color 0.35s, box-shadow 0.35s;
+            font-family: inherit;
+            box-shadow: 0 0 9px #21ffd090 inset;
+        }
+        input[type="file"] {
+            padding: 9px;
+            cursor: pointer;
+            border-style: dashed;
+        }
+        input:focus, select:focus {
+            border-color: #00ffe5;
+            box-shadow: 0 0 17px #18ffda99;
+        }
+        .file-upload-area {
+            border: 2px dashed #16e6d7ba;
+            border-radius: 10px;
+            padding: 28px;
+            text-align: center;
+            background: #1f3557bb;
+            cursor: pointer;
+            transition: all 0.35s;
+            position: relative;
+            box-shadow: 0 0 12px #00fff520;
+        }
+        .file-upload-area:hover {
+            border-color: #36f0de;
+            background: #16315ec9;
+            box-shadow: 0 0 18px #03ffe6b3;
+        }
+        .file-upload-area.has-file {
+            border-color: #1fffc7 !important;
+            background: #14394457 !important;
+            box-shadow: 0 0 22px #1fffb7a8;
+        }
+        .file-info {
+            margin-top: 10px;
+            color: #bbb;
+            font-size: 0.98em;
+            text-shadow: 0 0 6px #00ffe570;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #21d4fd 0%, #00f2fe 100%);
+            color: #001120;
+            border: none;
+            border-radius: 11px;
+            font-size: 1.12em;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 0 16px #10ffd3b3, 0 4px 16px #0ff6;
+            transition: transform 0.23s, box-shadow 0.23s, background 0.24s;
+            letter-spacing: 1.5px;
+            filter: drop-shadow(0 1px 8px #00eaea55);
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px) scale(1.012);
+            background: linear-gradient(90deg, #00ffe7 0%, #00c3ff 100%);
+            box-shadow: 0 0 21px #21fff7ee;
+        }
+        .submit-btn:active {
+            transform: translateY(0) scale(0.99);
+        }
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 28px;
+            padding: 30px 25px 16px 25px;
+            border-radius: 12px;
+            animation: slideIn 0.4s ease;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px);}
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result.success {
+            background: #0e4030ed;
+            color: #10ffc9;
+            border: 3px solid #31ffc5;
+            box-shadow: 0 0 30px #10ffc755;
+        }
+        .result.error {
+            background: #3b183c;
+            color: #ff5cf9;
+            border: 3px solid #52c8ff;
+            box-shadow: 0 0 15px #74fffb99;
+        }
+        .hash-display {
+            background: #031625fd;
+            padding: 14px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.97em;
+            word-break: break-all;
+            margin-top: 13px;
+            color: #31ffc5;
+            border: 1.5px solid #23e6ae;
+            box-shadow: 0 0 10px #00ffd680;
+        }
+        .evidence-id {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #39ffd2ee;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #47ffe8;
+            animation: spin 1s ease-in-out infinite;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg);}
+        }
+        .helper-text {
+            color: #0fffc9bb;
+            font-size: 0.93em;
+            margin-top: 5px;
+        }
+        @media (max-width: 650px) {
+            .form-container {padding: 18px 8px 18px 8px;}
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Submit Evidence</h1>
+            <p>Evidence Management System</p>
+        </div>
+        <div class="form-container">
+            <form id="evidenceForm">
+                <div class="form-group">
+                    <label>Case ID <span class="required">*</span></label>
+                    <input type="number" id="caseId" required placeholder="Enter case ID">
+                </div>
+                <div class="form-group">
+                    <label>Evidence ID <span class="required">*</span></label>
+                    <input type="number" id="evidenceId" required placeholder="Enter evidence ID">
+                </div>
+                <div class="form-group">
+                    <label>File Name <span class="required">*</span></label>
+                    <input type="text" id="fileName" required placeholder="Enter evidence file name">
+                    <div class="helper-text">Use a descriptive name for the evidence</div>
+                </div>
+                <div class="form-group">
+                    <label>File Type</label>
+                    <select id="fileType">
+                        <option value="">Select file type</option>
+                        <option value="Image">Image</option>
+                        <option value="Document">Document</option>
+                        <option value="Video">Video</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Officer ID <span class="required">*</span></label>
+                    <input type="number" id="officerId" required placeholder="Enter officer ID">
+                </div>
+                <div class="form-group">
+                    <label>Upload Evidence File <span class="required">*</span></label>
+                    <div class="file-upload-area" id="fileUploadArea">
+                        <div style="font-size: 2.5em; margin-bottom: 10px; color:#21d4fd; text-shadow:0 0 10px #00fbaa;">📎</div>
+                        <div><strong>Click to select file</strong></div>
+                        <div class="helper-text">or drag and drop</div>
+                        <div class="file-info" id="fileInfo"></div>
+                    </div>
+                    <input type="file" id="evidenceFile" required style="display: none;">
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span style="text-shadow:0 0 7px #1ffdff;">Submit Evidence</span>
+                </button>
+            </form>
+            <div id="result"></div>
+        </div>
+    </div>
+    <script>
+        const form = document.getElementById('evidenceForm');
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const fileInput = document.getElementById('evidenceFile');
+        const fileInfo = document.getElementById('fileInfo');
+        const submitBtn = document.getElementById('submitBtn');
+        const result = document.getElementById('result');
+        let selectedFile = null;
+        fileUploadArea.addEventListener('click', () => fileInput.click());
+        fileUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadArea.style.borderColor = '#31ffc5';
+        });
+        fileUploadArea.addEventListener('dragleave', () => {
+            fileUploadArea.style.borderColor = '#16e6d7ba';
+        });
+        fileUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            if (e.dataTransfer.files.length > 0) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+        function handleFile(file) {
+            selectedFile = file;
+            fileUploadArea.classList.add('has-file');
+            fileInfo.innerHTML = `<strong>✓ Selected:</strong> ${file.name}<br><span style="color: #55fff9;">Size: ${(file.size / 1024).toFixed(2)} KB</span>`;
+        }
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!selectedFile) {
+                showResult('error', '❌ Please select a file to upload');
+                return;
+            }
+            const formData = new FormData();
+            formData.append('caseId', document.getElementById('caseId').value);
+            formData.append('fileName', document.getElementById('fileName').value);
+            formData.append('evidenceId', document.getElementById('evidenceId').value);
+            formData.append('fileType', document.getElementById('fileType').value);
+            formData.append('officerId', document.getElementById('officerId').value);
+            formData.append('evidenceFile', selectedFile);
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loading"></span>Submitting...';
+            try {
+                const response = await fetch('/submit-evidence', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                if (data.success) {
+                    showResult('success', `
+                        ✅ Evidence Submitted Successfully!<br><br>
+                        <span class="evidence-id">Evidence ID: ${data.evidenceId}</span><br>
+                        <div class="hash-display">
+                            <strong>SHA-256 Hash:</strong><br>
+                            ${data.hash}
+                        </div>
+                    `);
+                    form.reset();
+                    selectedFile = null;
+                    fileUploadArea.classList.remove('has-file');
+                    fileInfo.innerHTML = '';
+                } else {
+                    showResult('error', `❌ Error: ${data.error}`);
+                }
+            } catch (error) {
+                showResult('error', `❌ Error: ${error.message}`);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span style="text-shadow:0 0 7px #1ffdff;">Submit Evidence</span>';
+            }
+        });
+        function showResult(type, message) {
+            result.className = `result ${type}`;
+            result.innerHTML = message;
+            result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
+</body>
+</html>
