@@ -38,19 +38,30 @@ This system allows officers to **upload evidence**, generates a **SHA-256 hash**
 
 ---
 
-## 📁 Project Structure
-📁 Digital-Evidence-Management-System/
-│
-├── 📁 evidence_files/              # Directory to store uploaded evidence files
-│   └── .gitkeep                    # Keeps the folder tracked in Git
-│
-├── 📁 public/                      # Frontend files
-│   ├── index.html                  # Evidence submission page
-│   ├── admin.html                  # Evidence verification / admin panel
-│   └── styles.css                  # Optional styling file
-│
-├── server.js                       # Main Express backend server
-├── package.json                    # Project dependencies & scripts
-├── package-lock.json               # Dependency lock file
-├── README.md                       # Project documentation
-└── .gitignore                      # Ignore node_modules & uploads
+## 📂 Folder Structure
+
+<pre>
+Digital-Evidence-Management-System/
+├── evidence_files/            # Directory to store uploaded evidence files
+│   └── .gitkeep               # Keeps folder tracked in Git
+├── public/                    # Frontend files
+│   ├── index.html             # Evidence submission page
+│   ├── admin.html             # Evidence verification / admin panel
+│   └── styles.css             # Optional styling file
+├── server.js                  # Main Express backend server
+├── package.json               # Project dependencies & scripts
+├── package-lock.json          # Dependency lock file
+├── README.md                  # Project documentation
+└── .gitignore                 # Ignore node_modules & uploads
+</pre>
+
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/your-username/Digital-Evidence-Submission-Verification-System.git
+cd Digital-Evidence-Submission-Verification-System
+
